@@ -13,16 +13,300 @@ from io import BytesIO
 st.set_page_config(
     page_title="Excel 在线工具箱",
     page_icon="📊",
-    layout="wide"
+    layout="wide",
+    initial_sidebar_state="expanded"
 )
 
-st.title("📊 Excel 在线工具箱")
 
-st.write(
-    "支持 Excel 批量合并、数据清洗、去重、按字段拆分等功能。"
+# ============================================================
+# 页面样式
+# ============================================================
+
+st.markdown(
+    """
+    <style>
+
+    .block-container {
+        max-width: 1200px;
+        padding-top: 2rem;
+        padding-bottom: 3rem;
+    }
+
+    .main-title {
+        font-size: 46px;
+        font-weight: 750;
+        margin-bottom: 8px;
+    }
+
+    .subtitle {
+        font-size: 19px;
+        color: #666666;
+        margin-bottom: 25px;
+    }
+
+    .feature-box {
+        border: 1px solid #e8e8e8;
+        border-radius: 14px;
+        padding: 22px;
+        min-height: 145px;
+        background: white;
+    }
+
+    .feature-title {
+        font-size: 20px;
+        font-weight: 650;
+        margin-bottom: 8px;
+    }
+
+    .feature-text {
+        color: #666666;
+        font-size: 15px;
+        line-height: 1.7;
+    }
+
+    .footer {
+        text-align: center;
+        color: #888888;
+        font-size: 13px;
+        margin-top: 40px;
+        line-height: 1.8;
+    }
+
+    </style>
+    """,
+    unsafe_allow_html=True
 )
 
-st.caption("当前版本：V0.3")
+
+# ============================================================
+# 左侧菜单
+# ============================================================
+
+with st.sidebar:
+
+    st.title("📊 Excel 工具箱")
+
+    st.markdown("### 当前功能")
+
+    st.write("✅ Excel 批量合并")
+    st.write("✅ 多 Sheet 处理")
+    st.write("✅ 删除空白行")
+    st.write("✅ 整行去重")
+    st.write("✅ 指定字段去重")
+    st.write("✅ Excel 按字段拆分")
+    st.write("✅ ZIP 批量下载")
+    st.write("✅ 多 Sheet 导出")
+
+    st.divider()
+
+    st.markdown("### 当前版本")
+
+    st.write("V0.4")
+
+    st.caption("持续开发中 🚀")
+
+    st.divider()
+
+    st.markdown("### 使用提醒")
+
+    st.caption(
+        "重要数据请保留原始文件备份。"
+    )
+
+
+# ============================================================
+# 首页标题
+# ============================================================
+
+st.markdown(
+    '<div class="main-title">📊 Excel 在线工具箱</div>',
+    unsafe_allow_html=True
+)
+
+st.markdown(
+    """
+    <div class="subtitle">
+    免费的在线 Excel 批量处理工具，让重复的数据整理工作更简单。
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+
+# ============================================================
+# 功能介绍
+# ============================================================
+
+col1, col2, col3 = st.columns(3)
+
+with col1:
+
+    st.markdown(
+        """
+        <div class="feature-box">
+            <div class="feature-title">🔗 批量合并</div>
+            <div class="feature-text">
+            上传多个 Excel 文件，自动合并成一张总表，
+            无需手动复制粘贴。
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+
+with col2:
+
+    st.markdown(
+        """
+        <div class="feature-box">
+            <div class="feature-title">🧹 数据清洗</div>
+            <div class="feature-text">
+            自动删除空白行、重复记录，
+            也可以按照指定字段进行去重。
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+
+with col3:
+
+    st.markdown(
+        """
+        <div class="feature-box">
+            <div class="feature-title">✂️ 智能拆分</div>
+            <div class="feature-text">
+            按负责人、地区、部门、项目状态等字段，
+            自动拆分 Excel。
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+st.write("")
+
+
+# ============================================================
+# 使用教程
+# ============================================================
+
+with st.expander(
+    "📖 第一次使用？点击查看操作方法",
+    expanded=False
+):
+
+    st.markdown(
+        """
+        ### 使用方法
+
+        **第一步**
+
+        上传一个或多个 `.xlsx` 文件。
+
+        **第二步**
+
+        选择需要读取的 Sheet。
+
+        **第三步**
+
+        选择合并、去重、清洗或拆分功能。
+
+        **第四步**
+
+        预览处理结果。
+
+        **第五步**
+
+        下载处理完成的 Excel。
+        """
+    )
+
+
+# ============================================================
+# 创建测试 Excel
+# ============================================================
+
+def create_demo_excel():
+
+    demo_data = {
+        "项目名称": [
+            "项目A",
+            "项目B",
+            "项目C",
+            "项目D",
+            "项目A"
+        ],
+
+        "负责人": [
+            "张三",
+            "李四",
+            "张三",
+            "王五",
+            "张三"
+        ],
+
+        "地区": [
+            "上海",
+            "浙江",
+            "上海",
+            "江苏",
+            "上海"
+        ],
+
+        "项目金额": [
+            120000,
+            85000,
+            200000,
+            150000,
+            120000
+        ],
+
+        "项目状态": [
+            "进行中",
+            "已完成",
+            "进行中",
+            "待启动",
+            "进行中"
+        ]
+    }
+
+    demo_df = pd.DataFrame(demo_data)
+
+    output = BytesIO()
+
+    with pd.ExcelWriter(
+        output,
+        engine="openpyxl"
+    ) as writer:
+
+        demo_df.to_excel(
+            writer,
+            index=False,
+            sheet_name="项目台账"
+        )
+
+    output.seek(0)
+
+    return output
+
+
+demo_file = create_demo_excel()
+
+
+st.download_button(
+    label="📥 没有测试文件？下载示例 Excel",
+    data=demo_file,
+    file_name="示例项目台账.xlsx",
+    mime=(
+        "application/vnd.openxmlformats-officedocument."
+        "spreadsheetml.sheet"
+    )
+)
+
+st.write("")
 
 
 # ============================================================
@@ -30,9 +314,9 @@ st.caption("当前版本：V0.3")
 # ============================================================
 
 def get_sheet_names(file):
-    """获取 Excel 中的所有 Sheet"""
 
     try:
+
         file.seek(0)
 
         excel_file = pd.ExcelFile(file)
@@ -46,6 +330,7 @@ def get_sheet_names(file):
         return sheets
 
     except Exception:
+
         return []
 
 
@@ -55,9 +340,6 @@ def load_excel_files(
     selected_sheet=None,
     add_source=True
 ):
-    """
-    批量读取 Excel
-    """
 
     all_data = []
 
@@ -75,35 +357,36 @@ def load_excel_files(
 
             sheets = excel_file.sheet_names
 
+
             # -----------------------------------------
-            # 选择需要读取的 Sheet
+            # 选择 Sheet
             # -----------------------------------------
 
             if sheet_mode == "每个文件第一个工作表":
 
                 target_sheets = [sheets[0]]
 
+
             elif sheet_mode == "指定同名工作表":
 
                 if selected_sheet not in sheets:
 
                     errors.append(
-                        f"{file.name}：不存在工作表 "
-                        f"「{selected_sheet}」"
+                        f"{file.name}：不存在工作表「{selected_sheet}」"
                     )
 
                     continue
 
                 target_sheets = [selected_sheet]
 
+
             else:
 
-                # 读取所有工作表
                 target_sheets = sheets
 
 
             # -----------------------------------------
-            # 读取
+            # 读取数据
             # -----------------------------------------
 
             for sheet in target_sheets:
@@ -124,15 +407,18 @@ def load_excel_files(
                     }
                 )
 
+
                 if add_source:
 
                     df["来源文件"] = file.name
-
                     df["来源Sheet"] = sheet
+
 
                 all_data.append(df)
 
+
             excel_file.close()
+
 
         except Exception as e:
 
@@ -153,20 +439,20 @@ def load_excel_files(
 
         result = pd.DataFrame()
 
+
     return result, errors, structures
 
 
 def safe_filename(value):
-    """
-    把字段值转换成合法文件名
-    """
 
     if pd.isna(value):
+
         value = "空值"
 
     value = str(value).strip()
 
     if not value:
+
         value = "空值"
 
     value = re.sub(
@@ -179,9 +465,6 @@ def safe_filename(value):
 
 
 def safe_sheet_name(value):
-    """
-    Excel Sheet 名称最多31个字符
-    """
 
     name = safe_filename(value)
 
@@ -201,13 +484,27 @@ uploaded_files = st.file_uploader(
 )
 
 
+st.info(
+    "🔒 隐私说明：当前工具仅在处理过程中读取上传的 Excel 文件，"
+    "不会主动建立永久文件存储。请勿上传密码、身份证号码、"
+    "银行卡信息或其他高度敏感数据。"
+)
+
+
+# ============================================================
+# 上传后处理
+# ============================================================
+
 if uploaded_files:
 
     st.success(
         f"已上传 {len(uploaded_files)} 个 Excel 文件"
     )
 
-    with st.expander("查看已上传文件"):
+
+    with st.expander(
+        "查看已上传文件"
+    ):
 
         for file in uploaded_files:
 
@@ -223,6 +520,7 @@ if uploaded_files:
     # ========================================================
 
     st.subheader("② Sheet 设置")
+
 
     sheet_mode = st.radio(
         "请选择读取方式",
@@ -242,11 +540,13 @@ if uploaded_files:
 
         all_sheet_sets = []
 
+
         for file in uploaded_files:
 
             sheets = get_sheet_names(file)
 
             if sheets:
+
                 all_sheet_sets.append(
                     set(sheets)
                 )
@@ -285,15 +585,15 @@ if uploaded_files:
     )
 
 
-    # ========================================================
-    # 预读取
-    # ========================================================
-
     can_load = not (
         sheet_mode == "指定同名工作表"
         and selected_sheet is None
     )
 
+
+    # ========================================================
+    # 读取数据
+    # ========================================================
 
     if can_load:
 
@@ -306,20 +606,29 @@ if uploaded_files:
 
 
         # ====================================================
-        # 异常提示
+        # 文件异常
         # ====================================================
 
         if errors:
 
-            st.warning("发现文件异常：")
+            st.warning(
+                "发现文件异常："
+            )
 
             for error in errors:
-                st.write("⚠️", error)
+
+                st.write(
+                    "⚠️",
+                    error
+                )
 
 
         if not raw_data.empty:
 
-            # 判断字段结构是否一致
+
+            # =================================================
+            # 字段结构检测
+            # =================================================
 
             if structures:
 
@@ -327,18 +636,21 @@ if uploaded_files:
 
                 different_structure = []
 
+
                 for item in structures[1:]:
 
                     if item["字段"] != first_columns:
 
-                        different_structure.append(item)
+                        different_structure.append(
+                            item
+                        )
 
 
                 if different_structure:
 
                     st.warning(
                         "检测到部分 Excel 字段结构不完全一致。"
-                        "系统仍会合并，不存在的字段会自动留空。"
+                        "系统仍会继续合并，不存在的字段会自动留空。"
                     )
 
 
@@ -355,7 +667,7 @@ if uploaded_files:
 
 
             # =================================================
-            # TAB 1：合并 + 清洗
+            # TAB 1：合并与清洗
             # =================================================
 
             with tab1:
@@ -363,6 +675,7 @@ if uploaded_files:
                 st.subheader(
                     "③ 合并与数据清洗"
                 )
+
 
                 st.write(
                     f"当前读取到 **{len(raw_data)}** 条原始记录。"
@@ -386,19 +699,20 @@ if uploaded_files:
                 )
 
 
-                dedupe_columns = []
-
-
                 metadata_columns = [
                     "来源文件",
                     "来源Sheet"
                 ]
+
 
                 selectable_columns = [
                     col
                     for col in raw_data.columns
                     if col not in metadata_columns
                 ]
+
+
+                dedupe_columns = []
 
 
                 if dedupe_mode == "按指定字段去重":
@@ -417,6 +731,7 @@ if uploaded_files:
                     ]
                 )
 
+
                 keep_mode = (
                     "first"
                     if keep_mode_text == "保留第一条"
@@ -431,7 +746,10 @@ if uploaded_files:
 
                     result = raw_data.copy()
 
-                    original_count = len(result)
+
+                    original_count = len(
+                        result
+                    )
 
 
                     # -----------------------------------------
@@ -446,17 +764,20 @@ if uploaded_files:
                             if col not in metadata_columns
                         ]
 
+
                         result = result.dropna(
                             how="all",
                             subset=data_columns
                         )
 
 
-                    after_empty_count = len(result)
+                    after_empty_count = len(
+                        result
+                    )
 
 
                     # -----------------------------------------
-                    # 去重
+                    # 整行去重
                     # -----------------------------------------
 
                     if dedupe_mode == "整行完全重复":
@@ -467,16 +788,18 @@ if uploaded_files:
                             if col not in metadata_columns
                         ]
 
+
                         result = result.drop_duplicates(
                             subset=compare_columns,
                             keep=keep_mode
                         )
 
 
-                    elif (
-                        dedupe_mode
-                        == "按指定字段去重"
-                    ):
+                    # -----------------------------------------
+                    # 指定字段去重
+                    # -----------------------------------------
+
+                    elif dedupe_mode == "按指定字段去重":
 
                         if dedupe_columns:
 
@@ -503,14 +826,11 @@ if uploaded_files:
                     ] = result
 
 
-                    # -----------------------------------------
-                    # 统计
-                    # -----------------------------------------
-
                     removed_empty = (
                         original_count
                         - after_empty_count
                     )
+
 
                     removed_duplicates = (
                         after_empty_count
@@ -522,17 +842,21 @@ if uploaded_files:
                         "数据处理完成！"
                     )
 
+
                     col1, col2, col3 = st.columns(3)
+
 
                     col1.metric(
                         "原始数据",
                         original_count
                     )
 
+
                     col2.metric(
                         "删除空行",
                         removed_empty
                     )
+
 
                     col3.metric(
                         "删除重复数据",
@@ -540,34 +864,36 @@ if uploaded_files:
                     )
 
 
-                # ---------------------------------------------
-                # 展示合并结果
-                # ---------------------------------------------
+                # =================================================
+                # 展示处理结果
+                # =================================================
 
-                if (
-                    "clean_result"
-                    in st.session_state
-                ):
+                if "clean_result" in st.session_state:
 
                     result = st.session_state[
                         "clean_result"
                     ]
 
+
                     st.subheader(
                         "④ 处理结果预览"
                     )
 
+
                     col1, col2 = st.columns(2)
+
 
                     col1.metric(
                         "最终数据行数",
                         len(result)
                     )
 
+
                     col2.metric(
                         "字段数量",
                         len(result.columns)
                     )
+
 
                     st.dataframe(
                         result,
@@ -576,11 +902,12 @@ if uploaded_files:
                     )
 
 
-                    # -----------------------------------------
+                    # =================================================
                     # Excel 导出
-                    # -----------------------------------------
+                    # =================================================
 
                     output = BytesIO()
+
 
                     with pd.ExcelWriter(
                         output,
@@ -592,6 +919,7 @@ if uploaded_files:
                             sheet_name="处理结果",
                             index=False
                         )
+
 
                     output.seek(0)
 
@@ -616,6 +944,7 @@ if uploaded_files:
                 st.subheader(
                     "③ 按字段拆分 Excel"
                 )
+
 
                 st.write(
                     "可以按照负责人、地区、项目状态、"
@@ -667,6 +996,10 @@ if uploaded_files:
                         )
 
 
+                        # -----------------------------------------
+                        # 删除空行
+                        # -----------------------------------------
+
                         if remove_empty_split:
 
                             data_columns = [
@@ -675,15 +1008,16 @@ if uploaded_files:
                                 if col not in metadata_columns
                             ]
 
-                            split_result = (
-                                split_result.dropna(
-                                    how="all",
-                                    subset=data_columns
-                                )
+
+                            split_result = split_result.dropna(
+                                how="all",
+                                subset=data_columns
                             )
 
 
-                        # 空值也保留为一组
+                        # -----------------------------------------
+                        # 处理空值
+                        # -----------------------------------------
 
                         split_result[
                             "__拆分字段__"
@@ -726,15 +1060,16 @@ if uploaded_files:
                             }
                         )
 
+
                         st.dataframe(
                             preview,
                             use_container_width=True
                         )
 
 
-                        # =====================================
-                        # 模式一：ZIP
-                        # =====================================
+                        # =================================================
+                        # ZIP 模式
+                        # =================================================
 
                         if (
                             export_mode
@@ -752,35 +1087,31 @@ if uploaded_files:
                                 compression=zipfile.ZIP_DEFLATED
                             ) as zip_file:
 
+
                                 for (
                                     group_name,
                                     group_df
                                 ) in groups:
 
-                                    group_df = (
-                                        group_df
-                                        .drop(
-                                            columns=[
-                                                "__拆分字段__"
-                                            ]
-                                        )
+
+                                    group_df = group_df.drop(
+                                        columns=[
+                                            "__拆分字段__"
+                                        ]
                                     )
 
 
-                                    filename = (
-                                        safe_filename(
-                                            group_name
-                                        )
+                                    filename = safe_filename(
+                                        group_name
                                     )
 
-
-                                    # 防止文件名重复
 
                                     if filename in used_names:
 
                                         used_names[
                                             filename
                                         ] += 1
+
 
                                         filename = (
                                             f"{filename}_"
@@ -801,6 +1132,7 @@ if uploaded_files:
                                         excel_buffer,
                                         engine="openpyxl"
                                     ) as writer:
+
 
                                         group_df.to_excel(
                                             writer,
@@ -831,9 +1163,9 @@ if uploaded_files:
                             )
 
 
-                        # =====================================
-                        # 模式二：多个Sheet
-                        # =====================================
+                        # =================================================
+                        # 多 Sheet 模式
+                        # =================================================
 
                         else:
 
@@ -847,35 +1179,29 @@ if uploaded_files:
                                 engine="openpyxl"
                             ) as writer:
 
+
                                 for (
                                     group_name,
                                     group_df
                                 ) in groups:
 
-                                    group_df = (
-                                        group_df
-                                        .drop(
-                                            columns=[
-                                                "__拆分字段__"
-                                            ]
-                                        )
+
+                                    group_df = group_df.drop(
+                                        columns=[
+                                            "__拆分字段__"
+                                        ]
                                     )
 
 
-                                    sheet_name = (
-                                        safe_sheet_name(
-                                            group_name
-                                        )
+                                    sheet_name = safe_sheet_name(
+                                        group_name
                                     )
 
 
-                                    # 防止 Sheet 重名
-
-                                    original_name = (
-                                        sheet_name
-                                    )
+                                    original_name = sheet_name
 
                                     counter = 1
+
 
                                     while (
                                         sheet_name
@@ -887,6 +1213,7 @@ if uploaded_files:
                                         suffix = (
                                             f"_{counter}"
                                         )
+
 
                                         sheet_name = (
                                             original_name[
@@ -918,9 +1245,8 @@ if uploaded_files:
                                     f"按{split_column}拆分结果.xlsx"
                                 ),
                                 mime=(
-                                    "application/vnd."
-                                    "openxmlformats-officedocument."
-                                    "spreadsheetml.sheet"
+                                    "application/vnd.openxmlformats-"
+                                    "officedocument.spreadsheetml.sheet"
                                 )
                             )
 
@@ -942,5 +1268,31 @@ if uploaded_files:
 else:
 
     st.info(
-        "请先上传 Excel 文件。"
+        "👆 请先上传 Excel 文件开始使用。"
     )
+
+
+# ============================================================
+# 页面底部
+# ============================================================
+
+st.divider()
+
+st.markdown(
+    """
+    <div class="footer">
+
+    Excel 在线工具箱 V0.4
+
+    <br>
+
+    Made with Python + Streamlit
+
+    <br><br>
+
+    本工具仍处于测试阶段，重要数据请保留原始文件备份。
+
+    </div>
+    """,
+    unsafe_allow_html=True
+)
